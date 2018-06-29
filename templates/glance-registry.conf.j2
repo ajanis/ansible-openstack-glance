@@ -1,0 +1,31 @@
+[DEFAULT]
+debug = true
+
+[database]
+backend = sqlalchemy
+connection = mysql+pymysql://{{ openstack_glance_mysql_user }}:{{ openstack_glance_mysql_pass }}@{{ openstack_mysql_host }}/{{ openstack_glance_mysql_db }}?charset=utf8
+mysql_sql_mode = TRADITIONAL
+
+[glance_store]
+stores = file
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images
+
+[keystone_authtoken]
+auth_uri = http://{{ openstack_auth_host }}/v3
+auth_url = http://{{ openstack_auth_host }}/v3
+auth_version = 3
+region_name = {{ openstack_region_id }}
+auth_type = password
+username = glance
+project_name = service
+user_domain_name = Default
+project_domain_name = Default
+password = {{ openstack_admin_password }}
+
+[oslo_policy]
+policy_file = policy.json
+policy_dirs = policy.d
+
+[paste_deploy]
+flavor = keystone

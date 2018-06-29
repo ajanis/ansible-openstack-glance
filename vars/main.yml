@@ -1,0 +1,47 @@
+---
+openstack_package_prerequisites:
+  - python-pip
+  - libssl-dev
+  - python-pymysql
+  - python-pil
+  - python-gobject
+  - python-scgi
+  - python-memcache
+
+
+openstack_service_daemons:
+  - glance-api
+  - glance-registry
+
+
+openstack_services:
+  - glance
+
+
+openstack_sudoers:
+  - glance
+
+service_files:
+  etc:
+    src: etc
+    dest: /etc/glance
+
+config_files:
+  glance-api.conf:
+    src: control/glance-api.conf.j2
+    dest: /etc/glance/glance-api.conf
+    owner: glance
+    group: glance
+    notify: restart-glance-api
+  glance-registry.conf:
+    src: control/glance-registry.conf.j2
+    dest: /etc/glance/glance-registry.conf
+    owner: glance
+    group: glance
+    notify: restart-glance-registry
+ 
+ contrib_files: []
+
+openstack_source_projects:
+  - glance
+  - python-glanceclient

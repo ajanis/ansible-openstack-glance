@@ -1,0 +1,32 @@
+[DEFAULT]
+debug = true
+registry_host = 0.0.0.0
+bind_port = 9292
+image_size_cap = 69793218560
+
+[database]
+backend = sqlalchemy
+connection = mysql+pymysql://{{ openstack_glance_mysql_user }}:{{ openstack_glance_mysql_pass }}@{{ openstack_mysql_host }}/{{ openstack_glance_mysql_db }}?charset=utf8
+
+[glance_store]
+stores = file,http
+default_store = file
+filesystem_store_datadir = /var/lib/glance/images
+
+[image_format]
+disk_formats = ami,ari,aki,vhd,vmdk,raw,qcow2,vdi,iso,root-tar
+
+[keystone_authtoken]
+auth_uri = http://{{ openstack_auth_host }}/v3
+auth_url = http://{{ openstack_auth_host }}/v3
+auth_version = 3
+region_name = {{ openstack_region_id }}
+auth_type = password
+username = glance
+project_name = service
+user_domain_name = Default
+project_domain_name = Default
+password = {{ openstack_admin_password }}
+
+[paste_deploy]
+flavor = keystone
